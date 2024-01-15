@@ -33,7 +33,6 @@ def get_parse():
     args = parser.parse_args()
     return args
 
-
 class ImageDataset(Dataset):
     def __init__(self, image_paths, transform):
         self.image_paths = image_paths

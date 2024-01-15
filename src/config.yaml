@@ -1,23 +1,22 @@
 CLASSNAME:
-- cat
-- duck
-- panda
+- fake
+- real
 DATA:
   BATCHSIZES: 16
-  DATA_DIR: ../data
+  DATA_DIR: ../RealFakeDB_tiny
   IMG_SIZE:
   - 224
   - 224
-  NUM_WORKERS: 4
+  NUM_WORKERS: 1
 MODEL:
-  CHECKPOINT: ../weights/best.pt
-  EPOCHS: 2
+  CHECKPOINT: ''
+  EPOCHS: 1
   LEARNING_RATE: 1.0e-05
   LOSS_FUNCTION: CrossEntropyLoss
   MODEL_NAME: resnet18
-  NUMCLASS: 3
+  NUMCLASS: 2
   OPTIM_FUNCTION: Adam
 WEIGHT:
-  SAVE: false
+  SAVE: true
   SAVE_BEST: true
   SAVE_WEIGHT_PATH: ../weights

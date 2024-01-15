@@ -1,2 +1,7 @@
 *.pt
 *.pyc
+#Ignore images
+*.jpg
+*.jpeg
+*.png
+*.webp
