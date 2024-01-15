@@ -20,3 +20,4 @@ WEIGHT:
   SAVE: true
   SAVE_BEST: true
   SAVE_WEIGHT_PATH: ../weights
+  SAVE_WEIGHT_EXT_PATH: /content/drive/MyDrive/K32-GoogleDrive/DE_TAI_TOT_NGHIEP/weights

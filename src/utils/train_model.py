@@ -18,7 +18,7 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
     SAVE_WEIGHT_PATH = config['WEIGHT']['SAVE_WEIGHT_PATH'] if config['WEIGHT']['SAVE_WEIGHT_PATH'] else '../weights'
     SAVE_BEST = config['WEIGHT']['SAVE_BEST'] if config['WEIGHT']['SAVE_BEST'] else False
     SAVE = config['WEIGHT']['SAVE'] if config['WEIGHT']['SAVE'] else False
-
+    SAVE_WEIGHT_EXT_PATH = config['WEIGHT']['SAVE_WEIGHT_EXT_PATH'] if config['WEIGHT']['SAVE_WEIGHT_EXT_PATH'] else ''
 
     since = time.time()
     best_acc = 0.0
@@ -85,9 +85,17 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
                         'model_state_dict': model.state_dict(),
                         'optimizer_state_dict': optimizer.state_dict()
                         }, os.path.join(SAVE_WEIGHT_PATH, 'best.pt'))
+            
+            if SAVE_WEIGHT_EXT_PATH:
+                if phase == 'val' and f1 > best_acc:
+                    best_acc = f1
+                    torch.save({
+                        'model_state_dict': model.state_dict(),
+                        'optimizer_state_dict': optimizer.state_dict()
+                        }, os.path.join(SAVE_WEIGHT_PATH, 'best.pt'))
         
         # save model
-        if SAVE:
+        if SAVE_WEIGHT_EXT_PATH:
             torch.save({
                 'model_state_dict': model.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict()
