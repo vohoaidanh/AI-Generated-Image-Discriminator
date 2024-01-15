@@ -18,7 +18,6 @@ CLASS_NAMES = config['CLASSNAME']
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-
 # declare transforms for dataset
 data_transforms =  transforms.Compose([
         transforms.Resize(IMG_SIZE), # resize anh

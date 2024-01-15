@@ -11,15 +11,13 @@ cudnn.benchmark = True
 import warnings
 warnings.filterwarnings('ignore')
 
-
-
-
 def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
     config = load_config('config.yaml')
 
-    EPOCHS = config['MODEL']['EPOCHS'] if config['MODEL']['EPOCHS'] else 100
+    EPOCHS = config['MODEL']['EPOCHS'] if config['MODEL']['EPOCHS'] else 1
     SAVE_WEIGHT_PATH = config['WEIGHT']['SAVE_WEIGHT_PATH'] if config['WEIGHT']['SAVE_WEIGHT_PATH'] else '../weights'
     SAVE_BEST = config['WEIGHT']['SAVE_BEST'] if config['WEIGHT']['SAVE_BEST'] else False
+    SAVE = config['WEIGHT']['SAVE'] if config['WEIGHT']['SAVE'] else False
 
 
     since = time.time()
@@ -89,11 +87,12 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
                         }, os.path.join(SAVE_WEIGHT_PATH, 'best.pt'))
         
         # save model
-        torch.save({
-            'model_state_dict': model.state_dict(),
-            'optimizer_state_dict': optimizer.state_dict()
-            }, os.path.join(SAVE_WEIGHT_PATH, "".join(('epoch_', str(epoch), '.pt'))))
-        
+        if SAVE:
+            torch.save({
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict()
+                }, os.path.join(SAVE_WEIGHT_PATH, "".join(('epoch_', str(epoch), '.pt'))))
+            
         print(f'Total time for epoch {epoch}: {time.time()-time_epoch:.2f}s\n')
 
     time_elapsed = time.time() - since

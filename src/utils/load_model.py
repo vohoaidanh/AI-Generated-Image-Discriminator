@@ -20,7 +20,7 @@ def load_model():
     try:
         if MODEL_NAME == "efficientnetb7":
             if CHECKPOINT:
-                model = models.efficientnet_b7(pretrained=False)
+                model = models.efficientnet_b7(weights=False)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -31,7 +31,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.efficientnet_b7(pretrained=True)
+                model = models.efficientnet_b7(weights=True)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -45,7 +45,7 @@ def load_model():
         
         elif MODEL_NAME == "efficientnetb6":
             if CHECKPOINT:
-                model = models.efficientnet_b6(pretrained=False)
+                model = models.efficientnet_b6(weights=False)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -56,7 +56,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.efficientnet_b6(pretrained=True)
+                model = models.efficientnet_b6(weights=True)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -70,7 +70,7 @@ def load_model():
         
         elif MODEL_NAME == "efficientnetb5":
             if CHECKPOINT:
-                model = models.efficientnet_b5(pretrained=False)
+                model = models.efficientnet_b5(weights=False)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -81,7 +81,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.efficientnet_b5(pretrained=True)
+                model = models.efficientnet_b5(weights=True)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -95,7 +95,7 @@ def load_model():
         
         elif MODEL_NAME == "efficientnetb4":
             if CHECKPOINT:
-                model = models.efficientnet_b4(pretrained=False)
+                model = models.efficientnet_b4(weights=False)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -106,7 +106,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.efficientnet_b4(pretrained=True)
+                model = models.efficientnet_b4(weights=True)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -120,7 +120,7 @@ def load_model():
         
         elif MODEL_NAME == "efficientnetb3":
             if CHECKPOINT:
-                model = models.efficientnet_b3(pretrained=False)
+                model = models.efficientnet_b3(weights=False)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -131,7 +131,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.efficientnet_b3(pretrained=True)
+                model = models.efficientnet_b3(weights=True)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -145,7 +145,7 @@ def load_model():
         
         elif MODEL_NAME == "efficientnetb2":
             if CHECKPOINT:
-                model = models.efficientnet_b2(pretrained=False)
+                model = models.efficientnet_b2(weights=False)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -156,7 +156,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.efficientnet_b2(pretrained=True)
+                model = models.efficientnet_b2(weights=True)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -170,7 +170,7 @@ def load_model():
         
         elif MODEL_NAME == "efficientnetb1":
             if CHECKPOINT:
-                model = models.efficientnet_b1(pretrained=False)
+                model = models.efficientnet_b1(weights=False)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -181,7 +181,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.efficientnet_b1(pretrained=True)
+                model = models.efficientnet_b1(weights=True)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -195,7 +195,7 @@ def load_model():
         
         elif MODEL_NAME == "efficientnetb0":
             if CHECKPOINT:
-                model = models.efficientnet_b0(pretrained=False)
+                model = models.efficientnet_b0(weights=False)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -206,7 +206,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.efficientnet_b0(pretrained=True)
+                model = models.efficientnet_b0(weights=True)
                 model.classifier = nn.Linear(model.classifier[1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -225,7 +225,7 @@ def load_model():
 
         elif MODEL_NAME == "resnet18":            
             if CHECKPOINT:
-                model = models.resnet18(pretrained=False)
+                model = models.resnet18(weights='ResNet18_Weights.DEFAULT')
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -236,7 +236,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.resnet18(pretrained=True)
+                model = models.resnet18(weights=True)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -250,7 +250,7 @@ def load_model():
         
         elif MODEL_NAME == "resnet34":            
             if CHECKPOINT:
-                model = models.resnet34(pretrained=False)
+                model = models.resnet34(weights=False)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -261,7 +261,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.resnet34(pretrained=True)
+                model = models.resnet34(weights=True)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -275,7 +275,7 @@ def load_model():
         
         elif MODEL_NAME == "resnet50":            
             if CHECKPOINT:
-                model = models.resnet50(pretrained=False)
+                model = models.resnet50(weights=False)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -286,7 +286,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.resnet50(pretrained=True)
+                model = models.resnet50(weights=True)
                 # print(model)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
@@ -301,7 +301,7 @@ def load_model():
         
         elif MODEL_NAME == "resnet101":            
             if CHECKPOINT:
-                model = models.resnet101(pretrained=False)
+                model = models.resnet101(weights=False)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -312,7 +312,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.resnet101(pretrained=True)
+                model = models.resnet101(weights=True)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -326,7 +326,7 @@ def load_model():
         
         elif MODEL_NAME == "resnet152":            
             if CHECKPOINT:
-                model = models.resnet152(pretrained=False)
+                model = models.resnet152(weights=False)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -337,7 +337,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.resnet152(pretrained=True)
+                model = models.resnet152(weights=True)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -354,7 +354,7 @@ def load_model():
 
         elif MODEL_NAME == "vgg19":
             if CHECKPOINT:
-                model = models.vgg19(pretrained=False)
+                model = models.vgg19(weights=False)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -365,7 +365,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.vgg19(pretrained=True)
+                model = models.vgg19(weights=True)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -379,7 +379,7 @@ def load_model():
         
         elif MODEL_NAME == "vgg19bn":
             if CHECKPOINT:
-                model = models.vgg19_bn(pretrained=False)
+                model = models.vgg19_bn(weights=False)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -390,7 +390,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.vgg19_bn(pretrained=True)
+                model = models.vgg19_bn(weights=True)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -404,7 +404,7 @@ def load_model():
         
         elif MODEL_NAME == "vgg16":
             if CHECKPOINT:
-                model = models.vgg16(pretrained=False)
+                model = models.vgg16(weights=False)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -415,7 +415,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.vgg16(pretrained=True)
+                model = models.vgg16(weights=True)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -429,7 +429,7 @@ def load_model():
         
         elif MODEL_NAME == "vgg16bn":
             if CHECKPOINT:
-                model = models.vgg16_bn(pretrained=False)
+                model = models.vgg16_bn(weights=False)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -440,7 +440,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.vgg16_bn(pretrained=True)
+                model = models.vgg16_bn(weights=True)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -454,7 +454,7 @@ def load_model():
         
         elif MODEL_NAME == "vgg13":
             if CHECKPOINT:
-                model = models.vgg13(pretrained=False)
+                model = models.vgg13(weights=False)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -465,7 +465,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.vgg13(pretrained=True)
+                model = models.vgg13(weights=True)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -479,7 +479,7 @@ def load_model():
         
         elif MODEL_NAME == "vgg13bn":
             if CHECKPOINT:
-                model = models.vgg13_bn(pretrained=False)
+                model = models.vgg13_bn(weights=False)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -490,7 +490,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.vgg13_bn(pretrained=True)
+                model = models.vgg13_bn(weights=True)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -504,7 +504,7 @@ def load_model():
         
         elif MODEL_NAME == "vgg11":
             if CHECKPOINT:
-                model = models.vgg11(pretrained=False)
+                model = models.vgg11(weights=False)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -515,7 +515,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.vgg11(pretrained=True)
+                model = models.vgg11(weights=True)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -529,7 +529,7 @@ def load_model():
         
         elif MODEL_NAME == "vgg11bn":
             if CHECKPOINT:
-                model = models.vgg11_bn(pretrained=False)
+                model = models.vgg11_bn(weights=False)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -540,7 +540,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.vgg11_bn(pretrained=True)
+                model = models.vgg11_bn(weights=True)
                 model.classifier[6] = nn.Linear(model.classifier[-1].in_features, NUMCLASS)
 
             for param in model.parameters():
@@ -557,7 +557,7 @@ def load_model():
 
         elif MODEL_NAME == "googlenet":
             if CHECKPOINT:
-                model = models.googlenet(pretrained=False)
+                model = models.googlenet(weights=False)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
                 if not torch.cuda.is_available():
@@ -568,7 +568,7 @@ def load_model():
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.googlenet(pretrained=True)
+                model = models.googlenet(weights=True)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
 
             for param in model.parameters():

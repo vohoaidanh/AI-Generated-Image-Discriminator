@@ -1,4 +1,7 @@
-
+CLASSNAME:
+- cat
+- duck
+- panda
 DATA:
   BATCHSIZES: 16
   DATA_DIR: ../data
@@ -7,13 +10,14 @@ DATA:
   - 224
   NUM_WORKERS: 4
 MODEL:
-  CHECKPOINT: ''
-  EPOCHS: 30
+  CHECKPOINT: ../weights/best.pt
+  EPOCHS: 2
   LEARNING_RATE: 1.0e-05
   LOSS_FUNCTION: CrossEntropyLoss
   MODEL_NAME: resnet18
   NUMCLASS: 3
   OPTIM_FUNCTION: Adam
 WEIGHT:
+  SAVE: false
   SAVE_BEST: true
   SAVE_WEIGHT_PATH: ../weights

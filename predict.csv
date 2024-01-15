@@ -1,8 +1,8 @@
 fname,predict_class
-../data/val/panda/images (1).jpeg,panda
-../data/val/panda/images (5).jpeg,panda
-../data/val/panda/images (12).jpeg,panda
-../data/val/panda/images (2).jpeg,panda
-../data/val/panda/images.jpeg,duck
-../data/val/panda/images (3).jpeg,panda
-../data/val/panda/images (4).jpeg,panda
+../data/val/panda\images (1).jpeg,panda
+../data/val/panda\images (12).jpeg,panda
+../data/val/panda\images (2).jpeg,duck
+../data/val/panda\images (3).jpeg,duck
+../data/val/panda\images (4).jpeg,duck
+../data/val/panda\images (5).jpeg,panda
+../data/val/panda\images.jpeg,duck

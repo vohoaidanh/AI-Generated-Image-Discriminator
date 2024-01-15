@@ -17,7 +17,6 @@ warnings.filterwarnings('ignore')
 cudnn.benchmark = True
 
 
-
 if __name__=="__main__":
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -36,7 +35,6 @@ if __name__=="__main__":
     
     # Decay LR by a factor of 0.1 every 7 epochs
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
-
 
 
     print(json.dumps(load_config('config.yaml'), 
