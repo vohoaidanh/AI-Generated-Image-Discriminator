@@ -1,6 +1,6 @@
 # AI-Generated-Image-Discriminator
 
-A short description of your project goes here.
+(A short description).
 
 ## Development Based on
 
