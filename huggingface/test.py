@@ -14,6 +14,8 @@ print(f"Transformers version: {transformers.__version__}")
 print(f"Accelerate version: {accelerate.__version__}")
 print(f"PEFT version: {peft.__version__}")
 
+
+
 model_checkpoint = "microsoft/resnet-18"
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -70,11 +72,6 @@ train_model(model=lora_model, device=device, dataloaders=dataloaders,
             criterion=criterion, optimizer=optimizer_ft, scheduler=exp_lr_scheduler)
 
 
-model.layer4[1].conv1.base_layer
-
-
-
-model_state_dict = model.state_dict()
 
 
 

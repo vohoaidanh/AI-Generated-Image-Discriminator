@@ -9,6 +9,13 @@ from tqdm import tqdm
 
 cudnn.benchmark = True
 
+import psutil, os
+def get_ram_usage():
+    process = psutil.Process(os.getpid())
+    print(process.memory_info().rss / 1024 / 1024)
+    #return process.memory_info().rss / 1024 / 1024 # Convert to megabytes
+
+
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -30,6 +37,7 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
 
     for epoch in range(EPOCHS):
         print(f'Epoch {epoch}/{EPOCHS - 1}\n{"-" * 10}')
+
         time_epoch = time.time()    # start time of phase
 
         # Each epoch has a training and validation phase
@@ -43,8 +51,9 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
 
             # Iterate over data.
             with tqdm(dataloaders[phase], desc=f'{phase.capitalize()} Batch', unit='batch', leave=False, position=0, mininterval=0.5) as batch_progress:
-
+                
                 for inputs, labels in batch_progress:
+
                     inputs = inputs.to(device)
                     labels = labels.to(device)
     
