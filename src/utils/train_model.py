@@ -3,7 +3,8 @@ import os
 from sklearn.metrics import accuracy_score, f1_score
 import torch
 import torch.backends.cudnn as cudnn
-from utils.load_config import load_config, save_config
+from .load_config import load_config, save_config
+from tqdm import tqdm
 
 
 cudnn.benchmark = True
@@ -41,29 +42,34 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
             list_groundtruth = []   # groundtruth value
 
             # Iterate over data.
-            for inputs, labels in dataloaders[phase]:
-                inputs = inputs.to(device)
-                labels = labels.to(device)
+            with tqdm(dataloaders[phase], desc=f'{phase.capitalize()} Batch', unit='batch', leave=False, position=0, mininterval=0.5) as batch_progress:
 
-                # zero the parameter gradients
-                optimizer.zero_grad()
+                for inputs, labels in batch_progress:
+                    inputs = inputs.to(device)
+                    labels = labels.to(device)
+    
+                    # zero the parameter gradients
+                    optimizer.zero_grad()
+    
+                    # forward
+                    # track history if only in train
+                    with torch.set_grad_enabled(phase == 'train'):
+                        outputs = model(inputs)
+                        _, preds = torch.max(outputs, 1)
+                        loss = criterion(outputs, labels)
+    
+                        # backward + optimize only if in training phase
+                        if phase == 'train':
+                            loss.backward()
+                            optimizer.step()
 
-                # forward
-                # track history if only in train
-                with torch.set_grad_enabled(phase == 'train'):
-                    outputs = model(inputs)
-                    _, preds = torch.max(outputs, 1)
-                    loss = criterion(outputs, labels)
-
-                    # backward + optimize only if in training phase
-                    if phase == 'train':
-                        loss.backward()
-                        optimizer.step()
-
-                # statistics
-                running_loss += loss.item() * inputs.size(0)
-                list_predict += list(preds.cpu().detach().numpy())
-                list_groundtruth += list(labels.data.cpu().detach().numpy())
+                    # statistics
+                    running_loss += loss.item() * inputs.size(0)
+                    list_predict += list(preds.cpu().detach().numpy())
+                    list_groundtruth += list(labels.data.cpu().detach().numpy())
+                    
+                    # Update the progress bar with the current batch 
+                    batch_progress.set_postfix({'Epoch Loss': running_loss / len(list_groundtruth), 'F1 Score': f1_score(list_groundtruth, list_predict, average='macro')})
 
             epoch_loss = running_loss / len(list_groundtruth)
             f1 = f1_score(list_groundtruth, list_predict, average='macro')

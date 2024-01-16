@@ -2,7 +2,7 @@ import os
 import torch
 import torch.backends.cudnn as cudnn
 from torchvision import datasets, transforms
-from utils.load_config import load_config, save_config
+from .load_config import load_config, save_config
 
 cudnn.benchmark = True
 
@@ -10,14 +10,17 @@ import warnings
 warnings.filterwarnings('ignore')   
 
 
-def load_data():
+def load_data(config_path=''):
     # load config
-    config = load_config('config.yaml')
+    if config_path:
+        config = load_config(config_path)
+    else:
+        config = load_config('config.yaml')
+        
     IMG_SIZE = config['DATA']['IMG_SIZE'] if config['DATA']['IMG_SIZE'] else (224, 224)
     DATA_DIR = config['DATA']['DATA_DIR'] if config['DATA']['DATA_DIR'] else '../data'
     BATCHSIZE = config['DATA']['BATCHSIZES'] if config['DATA']['BATCHSIZES'] else 16
     NUM_WORKERS = config['DATA']['NUM_WORKERS'] if config['DATA']['NUM_WORKERS'] else 4
-
 
     # declare transforms for dataset
     data_transforms = {

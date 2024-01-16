@@ -55,7 +55,6 @@ if __name__ == '__main__':
     model = model.to(device)
     model.eval()
 
-
     # 2. Predict
     if os.path.isdir(args.test_path): 
         image_paths = [os.path.join(args.test_path, i) for i in os.listdir(args.test_path)]

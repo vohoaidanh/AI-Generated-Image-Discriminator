@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
-from utils.load_config import load_config, save_config
+from .load_config import load_config, save_config
 
 
 cudnn.benchmark = True
