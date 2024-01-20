@@ -1,17 +1,18 @@
+import random
 import torch
 import torch.backends.cudnn as cudnn
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms
+from torch.utils.data import DataLoader, Subset
+from torchvision import transforms, datasets
 import os
 import argparse
-from config import *
-from PIL import Image
+from config import BASE_DIR, CONFIG_DIR
+#from PIL import Image
 
 cudnn.benchmark = True
 
 from utils.load_model import load_model
 from utils.load_config import load_config
-from utils.predict_model import predict
+from utils.predict_model import predict, evaluation
 
 config = load_config(CONFIG_DIR)
 IMG_SIZE = config['DATA']['IMG_SIZE'] if config['DATA']['IMG_SIZE'] else (224, 224)
@@ -29,24 +30,11 @@ data_transforms =  transforms.Compose([
 
 def get_parse():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--test_path', type=str, required=True)
-    parser.add_argument('--batch_predict', type=int, required=True)
+    parser.add_argument('--test_path', type=str, required=False, default=r'RealFakeDB_tiny/test')
+    parser.add_argument('--batch_size', type=int, required=False, default=16)
+    parser.add_argument('--number_sample', type=int, required=False, default=20)
     args = parser.parse_args()
     return args
-
-class ImageDataset(Dataset):
-    def __init__(self, image_paths, transform):
-        self.image_paths = image_paths
-        self.transform = transform
-
-    def __len__(self):
-        return len(self.image_paths)
-
-    def __getitem__(self, idx):
-        image = Image.open(self.image_paths[idx])
-        image = self.transform(image)
-        return image
-
 
 if __name__ == '__main__':
     args = get_parse()
@@ -55,14 +43,28 @@ if __name__ == '__main__':
     model = load_model()
     model = model.to(device)
     model.eval()
+            
+    image_paths = args.test_path
+    if not os.path.exists(args.test_path):
+        image_paths = os.path.join(BASE_DIR, args.test_path)
+    
+    dataset = datasets.ImageFolder(image_paths,data_transforms)
+    
+    number_sample = 0
+    if args.number_sample==0:
+        number_sample = len(dataset)
+    else:
+        number_sample = args.number_sample
+    
+    subset_indices = random.sample(range(len(dataset)), number_sample)
+    subset_dataset = Subset(dataset, subset_indices)
+    subset_labels = [os.path.basename(dataset.samples[i][0]) for i in subset_indices]
 
-    # 2. Predict
-    if os.path.isdir(args.test_path): 
-        image_paths = [os.path.join(args.test_path, i) for i in os.listdir(args.test_path)]
-    elif os.path.isfile(args.test_path):
-        image_paths = [args.test_path]
-        
-    dataset = ImageDataset(image_paths, data_transforms)
-    dataloaders = (DataLoader(dataset, batch_size=args.batch_predict, shuffle=False), image_paths)
-    predict(model, dataloaders)
-    print('Predict completed! Result is saved in predict.csv')
+    dataloaders = (DataLoader(subset_dataset, batch_size=args.batch_size, shuffle=False))
+    
+    evaluation(model, dataloaders)
+    predict(model, dataloaders, subset_labels)
+    #_ = evalution()
+    
+    
+    
