@@ -2,13 +2,14 @@ import torch
 import torch.backends.cudnn as cudnn
 import numpy as np
 import pandas as pd
+from config import *
 
 cudnn.benchmark = True
 
 from utils.load_config import load_config
 
 
-config = load_config('config.yaml')
+config = load_config(CONFIG_DIR)
 CLASS_NAMES = config['CLASSNAME']
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 

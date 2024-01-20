@@ -1,10 +1,14 @@
 import time
 import os
+from config import *
 from sklearn.metrics import accuracy_score, f1_score
 import torch
 import torch.backends.cudnn as cudnn
 from .load_config import load_config, save_config
 from tqdm import tqdm
+
+from torch.utils.tensorboard import SummaryWriter
+import torchvision
 
 
 cudnn.benchmark = True
@@ -20,7 +24,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
-    config = load_config('config.yaml')
+    config = load_config(CONFIG_DIR)
+    writer = SummaryWriter('logs')
+
 
     EPOCHS = config['MODEL']['EPOCHS'] if config['MODEL']['EPOCHS'] else 1
     SAVE_WEIGHT_PATH = config['WEIGHT']['SAVE_WEIGHT_PATH'] if config['WEIGHT']['SAVE_WEIGHT_PATH'] else '../weights'
@@ -81,8 +87,11 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
                     batch_progress.set_postfix({'Epoch Loss': running_loss / len(list_groundtruth), 'F1 Score': f1_score(list_groundtruth, list_predict, average='macro')})
 
             epoch_loss = running_loss / len(list_groundtruth)
+            writer.add_scalar(f'{phase}/loss', epoch_loss, epoch)
+            
             f1 = f1_score(list_groundtruth, list_predict, average='macro')
             acc = accuracy_score(list_groundtruth, list_predict)
+            writer.add_scalar(f'{phase}/accuracy', acc, epoch)
 
             if phase == 'train':
                 scheduler.step()
@@ -117,7 +126,7 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
                 }, os.path.join(SAVE_WEIGHT_PATH, "".join(('epoch_', str(epoch), '.pt'))))
             
         print(f'Total time for epoch {epoch}: {time.time()-time_epoch:.2f}s\n')
-
+    writer.close()
     time_elapsed = time.time() - since
     print(f'\n\nTraining complete in {time_elapsed // 60:.0f}m {time_elapsed % 60:.0f}s')
     print(f'Best val Acc: {best_acc:4f}')

@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.backends.cudnn as cudnn
 from torchvision import models
 from .load_config import load_config, save_config
-
+from config import *
 
 cudnn.benchmark = True
 
@@ -11,7 +11,7 @@ cudnn.benchmark = True
 
 def load_model():
     # load configuration
-    config = load_config('config.yaml')
+    config = load_config(CONFIG_DIR)
     MODEL_NAME = config['MODEL']['MODEL_NAME'] if config['MODEL']['MODEL_NAME'] else 'resnet50'
     CHECKPOINT = config['MODEL']['CHECKPOINT'] if config['MODEL']['CHECKPOINT'] else ''
     NUMCLASS = config['MODEL']['NUMCLASS'] if config['MODEL']['NUMCLASS'] else 2

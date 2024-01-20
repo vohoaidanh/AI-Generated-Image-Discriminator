@@ -4,6 +4,7 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 import os
 import argparse
+from config import *
 from PIL import Image
 
 cudnn.benchmark = True
@@ -12,7 +13,7 @@ from utils.load_model import load_model
 from utils.load_config import load_config
 from utils.predict_model import predict
 
-config = load_config('config.yaml')
+config = load_config(CONFIG_DIR)
 IMG_SIZE = config['DATA']['IMG_SIZE'] if config['DATA']['IMG_SIZE'] else (224, 224)
 CLASS_NAMES = config['CLASSNAME']
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

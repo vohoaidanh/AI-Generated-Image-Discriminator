@@ -9,7 +9,7 @@ from utils.load_optim import load_optimization
 from utils.load_loss import load_loss_function
 from utils.train_model import train_model
 from utils.load_config import load_config
-
+from config import *
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -37,7 +37,7 @@ if __name__=="__main__":
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
 
-    print(json.dumps(load_config('config.yaml'), 
+    print(json.dumps(load_config(CONFIG_DIR), 
                     sort_keys=True, indent=4))
                     
     # train model

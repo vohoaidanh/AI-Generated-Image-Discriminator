@@ -3,6 +3,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from torchvision import datasets, transforms
 from .load_config import load_config, save_config
+from config import *
 
 cudnn.benchmark = True
 
@@ -37,9 +38,8 @@ def load_data(config_path=''):
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ])
     }
-
-
-    image_datasets = {x: datasets.ImageFolder(os.path.join(DATA_DIR, x),
+    
+    image_datasets = {x: datasets.ImageFolder(os.path.join(BASE_DIR, DATA_DIR, x),
                                               data_transforms[x])
                       for x in ['train', 'val']}
 
