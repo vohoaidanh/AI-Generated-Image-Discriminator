@@ -13,7 +13,7 @@ import accelerate
 import peft
 
 from visual import *
-from config import *
+from config import BASE_DIR, CONFIG_DIR, LORA, LORA_CONFIG
 
 print(f"Transformers version: {transformers.__version__}")
 print(f"Accelerate version: {accelerate.__version__}")
@@ -21,7 +21,7 @@ print(f"PEFT version: {peft.__version__}")
 
 def main():
 
-    model_checkpoint = "microsoft/resnet-18"
+    #model_checkpoint = "microsoft/resnet-18"
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     
     # load data
@@ -45,20 +45,10 @@ def main():
     
     print_trainable_parameters(model)
     
-    
-    from peft import LoraConfig, get_peft_model
+    from peft import get_peft_model
     
     if LORA:
-        config = LoraConfig(
-            r=1,
-            lora_alpha=16,
-            target_modules=["conv1"],
-            lora_dropout=0.1,
-            bias="none",
-            modules_to_save=["classifier"],
-        )
-    
-        lora_model = get_peft_model(model, config)
+        lora_model = get_peft_model(model, LORA_CONFIG)
         print_trainable_parameters(model = lora_model)
     else:
         lora_model = model
@@ -82,3 +72,9 @@ def main():
 if __name__ == "__main__":
     
     main()
+    
+    
+    
+    
+    
+    

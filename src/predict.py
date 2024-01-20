@@ -32,7 +32,7 @@ def get_parse():
     parser = argparse.ArgumentParser()
     parser.add_argument('--test_path', type=str, required=False, default=r'RealFakeDB_tiny/test')
     parser.add_argument('--batch_size', type=int, required=False, default=16)
-    parser.add_argument('--number_sample', type=int, required=False, default=20)
+    parser.add_argument('--number_sample', type=int, required=False, default=40)
     args = parser.parse_args()
     return args
 
@@ -64,7 +64,6 @@ if __name__ == '__main__':
     
     evaluation(model, dataloaders)
     predict(model, dataloaders, subset_labels)
-    #_ = evalution()
-    
+
     
     

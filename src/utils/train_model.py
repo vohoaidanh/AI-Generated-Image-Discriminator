@@ -137,3 +137,14 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
     save_config(config, 'config.yaml')
 
     
+
+
+
+
+
+
+
+
+
+
+

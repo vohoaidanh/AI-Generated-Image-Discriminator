@@ -4,7 +4,8 @@ import torch.nn as nn
 import torch.backends.cudnn as cudnn
 from torchvision import models
 from .load_config import load_config, save_config
-from config import BASE_DIR, CONFIG_DIR
+from config import BASE_DIR, CONFIG_DIR, LORA_CONFIG, LORA
+from peft import get_peft_model
 
 cudnn.benchmark = True
 
@@ -228,19 +229,24 @@ def load_model():
 
         elif MODEL_NAME == "resnet18":            
             if CHECKPOINT:
-                model = models.resnet18(weights='ResNet18_Weights.DEFAULT')
+                model = models.resnet18(weights=True)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
-
+                    
                 if not torch.cuda.is_available():
                     checkpoint = torch.load(CHECKPOINT, map_location=torch.device('cpu')) 
                 else: 
                     checkpoint = torch.load(CHECKPOINT)
+                    
+                if LORA:
+                    model = get_peft_model(model, LORA_CONFIG)
                     
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
                 model = models.resnet18(weights=True)
                 model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
+                if LORA:
+                    model = get_peft_model(model, LORA_CONFIG)
 
             for param in model.parameters():
                     param.requires_grad = False
