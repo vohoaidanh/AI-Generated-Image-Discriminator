@@ -3,7 +3,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from torchvision import datasets, transforms
 from .load_config import load_config, save_config
-from config import *
+from config import BASE_DIR, CONFIG_DIR
 
 cudnn.benchmark = True
 
@@ -11,10 +11,10 @@ import warnings
 warnings.filterwarnings('ignore')   
 
 
-def load_data(config_path=''):
+def load_data():
     # load config
-    if config_path:
-        config = load_config(config_path)
+    if os.path.exists(CONFIG_DIR):
+        config = load_config(CONFIG_DIR)
     else:
         config = load_config('config.yaml')
         

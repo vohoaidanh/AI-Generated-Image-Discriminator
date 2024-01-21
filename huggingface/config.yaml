@@ -10,7 +10,7 @@ DATA:
   - 224
   NUM_WORKERS: 1
 MODEL:
-  CHECKPOINT: 
+  CHECKPOINT: weights/best_loRA_20epoch.pt
   EPOCHS: 1
   LEARNING_RATE: 1.0e-05
   LOSS_FUNCTION: CrossEntropyLoss

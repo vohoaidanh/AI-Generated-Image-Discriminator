@@ -19,15 +19,17 @@ def is_single_channel_image(image_path):
 
     except Exception as e:
         # Xử lý các lỗi có thể xảy ra
-        print(f"Error: {e}")
+        #print(f"Error: {e}")
         return False
+    
+from tqdm import tqdm
 
 def find_single_channel_images(folder_path):
     single_channel_images = []
 
     # Duyệt qua tất cả các thư mục và tệp trong thư mục
     for root, dirs, files in os.walk(folder_path):
-        for file in files:
+        for file in tqdm(files, desc="Checking files"):
             # Kiểm tra chỉ có một kênh màu
             file_path = os.path.join(root, file)
             if is_single_channel_image(file_path):
@@ -39,19 +41,12 @@ def find_single_channel_images(folder_path):
 folder_path = "RealFakeDB_tiny"
 single_channel_images = find_single_channel_images(folder_path)
 
-# In danh sách các ảnh chỉ có một kênh màu
-print("Các ảnh chỉ có một kênh màu:")
-for image_path in single_channel_images:
-    print(image_path)
-
-
-
-
-
-
-
-
-
+#Delete
+for i in single_channel_images:
+    im = Image.open(i)
+    im3 = im.convert("RGB")
+    im3.save(i)
+    print(i)
 
 
 

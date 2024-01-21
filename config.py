@@ -6,7 +6,7 @@ CONFIG_DIR = os.path.join(BASE_DIR, 'config.yaml')
 
 #Train with LoRA
 LORA = True
-
+HUGGINGFACE_SOURCE = True
 from peft import LoraConfig
 
 LORA_CONFIG = LoraConfig(

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from src.utils import *
+from src.utils import load_config, load_data, train_model, load_loss_function, load_model, load_optimization, load_data_huggingface
 import json
-import os
 
 import torch
 from torch.optim import lr_scheduler
@@ -12,8 +11,7 @@ import transformers
 import accelerate
 import peft
 
-from visual import *
-from config import BASE_DIR, CONFIG_DIR, LORA, LORA_CONFIG
+from config import CONFIG_DIR, LORA, LORA_CONFIG, HUGGINGFACE_SOURCE
 
 print(f"Transformers version: {transformers.__version__}")
 print(f"Accelerate version: {accelerate.__version__}")
@@ -25,8 +23,10 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     
     # load data
-    dataloaders, dataset_sizes, class_names = load_data(CONFIG_DIR)
-    
+    if HUGGINGFACE_SOURCE:
+        dataloaders, dataset_sizes, class_names = load_data_huggingface()
+    else:
+        dataloaders, dataset_sizes, class_names = load_data()
     # load model
     model = load_model()
     model = model.to(device)
@@ -72,9 +72,5 @@ def main():
 if __name__ == "__main__":
     
     main()
-    
-    
-    
-    
     
     

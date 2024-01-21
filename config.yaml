@@ -3,6 +3,7 @@ CLASSNAME:
 - real
 DATA:
   BATCHSIZES: 16
+  DATA_DIR_HUG: HDanh/real_gen_dateset
   DATA_DIR: RealFakeDB_tiny
   IMG_SIZE:
   - 224
