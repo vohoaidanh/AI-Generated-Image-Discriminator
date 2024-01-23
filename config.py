@@ -5,7 +5,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 CONFIG_DIR = os.path.join(BASE_DIR, 'config.yaml')
 
 #Train with LoRA
-LORA = True
+LORA = False
 HUGGINGFACE_SOURCE = True
 from peft import LoraConfig
 

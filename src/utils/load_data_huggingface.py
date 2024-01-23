@@ -12,6 +12,8 @@ cudnn.benchmark = True
 import warnings
 warnings.filterwarnings('ignore')   
 
+
+
 # load config
 if os.path.exists(CONFIG_DIR):
     config = load_config(CONFIG_DIR)
@@ -58,8 +60,8 @@ def load_data_huggingface():
 
     image_datasets={'train':'', 'val':''}
     
-    image_datasets['val'] = load_dataset(DATA_DIR_HUG, streaming=False, split="test[:100]")
-    image_datasets['train'] = load_dataset(DATA_DIR_HUG, streaming=False, split="train[:100]")
+    image_datasets['val'] = load_dataset(DATA_DIR_HUG, streaming=False, split="validation")
+    image_datasets['train'] = load_dataset(DATA_DIR_HUG, streaming=False, split="train")
     
     image_datasets['val'].set_transform(train_transforms)
     image_datasets['train'].set_transform(val_transforms)

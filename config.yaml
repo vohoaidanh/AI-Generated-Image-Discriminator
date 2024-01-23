@@ -3,14 +3,14 @@ CLASSNAME:
 - real
 DATA:
   BATCHSIZES: 16
-  DATA_DIR_HUG: HDanh/real_gen_dateset
-  DATA_DIR: RealFakeDB_tiny
+  DATA_DIR: E:\RealFakeDB_tiny
+  DATA_DIR_HUG: HDanh/RealFakeDB_small
   IMG_SIZE:
   - 224
   - 224
   NUM_WORKERS: 1
 MODEL:
-  CHECKPOINT: weights/best_loRA_20epoch.pt
+  CHECKPOINT: 
   EPOCHS: 1
   LEARNING_RATE: 1.0e-05
   LOSS_FUNCTION: CrossEntropyLoss
