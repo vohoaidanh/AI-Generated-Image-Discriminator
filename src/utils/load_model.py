@@ -10,7 +10,6 @@ from peft import get_peft_model
 cudnn.benchmark = True
 
 
-
 def load_model():
     # load configuration
     config = load_config(CONFIG_DIR)
@@ -229,8 +228,8 @@ def load_model():
 
         elif MODEL_NAME == "resnet18":            
             if CHECKPOINT:
-                model = models.resnet18(weights=True)
-                model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
+                _model = models.resnet18(weights=True)
+                _model.fc = nn.Linear(_model.fc.in_features, NUMCLASS)
                     
                 if not torch.cuda.is_available():
                     checkpoint = torch.load(CHECKPOINT, map_location=torch.device('cpu')) 
@@ -238,24 +237,30 @@ def load_model():
                     checkpoint = torch.load(CHECKPOINT)
                     
                 if LORA:
-                    model = get_peft_model(model, LORA_CONFIG)
+                    model = get_peft_model(_model, LORA_CONFIG)
+                else:
+                    model = _model
                     
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
             else: 
-                model = models.resnet18(weights=True)
-                model.fc = nn.Linear(model.fc.in_features, NUMCLASS)
+                _model = models.resnet18(weights=True)
+                _model.fc = nn.Linear(_model.fc.in_features, NUMCLASS)
                 if LORA:
-                    model = get_peft_model(model, LORA_CONFIG)
+                    model = get_peft_model(_model, LORA_CONFIG)
+                else:
+                    model = _model
 
-            for param in model.parameters():
-                    param.requires_grad = False
-
-            # mo lop cuoi cua feature
-            model.layer4.requires_grad_(True)
-            model.avgpool.requires_grad_(True)
-            for param in model.fc.parameters():
-                param.requires_grad = True
+# =============================================================================
+#             for param in model.parameters():
+#                     param.requires_grad = False
+# 
+#             # mo lop cuoi cua feature
+#             model.layer4.requires_grad_(True)
+#             model.avgpool.requires_grad_(True)
+#             for param in model.fc.parameters():
+#                 param.requires_grad = True
+# =============================================================================
         
         elif MODEL_NAME == "resnet34":            
             if CHECKPOINT:
@@ -601,3 +606,12 @@ def load_model():
     except:
         print('Error: Could not load model.')
         exit(1)
+        
+        
+
+    
+    
+    
+    
+    
+    

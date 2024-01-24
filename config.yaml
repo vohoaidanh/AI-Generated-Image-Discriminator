@@ -3,7 +3,7 @@ CLASSNAME:
 - real
 DATA:
   BATCHSIZES: 16
-  DATA_DIR: E:\RealFakeDB_tiny
+  DATA_DIR: RealFakeDB_tiny
   DATA_DIR_HUG: HDanh/RealFakeDB_small
   IMG_SIZE:
   - 224

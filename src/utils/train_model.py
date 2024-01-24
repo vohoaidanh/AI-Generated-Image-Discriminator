@@ -134,7 +134,7 @@ def train_model(model, device, dataloaders, criterion, optimizer, scheduler):
     # update config.
     config['MODEL']['EPOCHS'] = EPOCHS
     config['WEIGHT']['SAVE_WEIGHT_PATH'] = SAVE_WEIGHT_PATH
-    save_config(config, 'config.yaml')
+    save_config(config, CONFIG_DIR)
 
     
 

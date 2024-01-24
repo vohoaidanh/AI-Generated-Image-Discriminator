@@ -45,13 +45,13 @@ def main():
     
     print_trainable_parameters(model)
     
-    from peft import get_peft_model
-    
+    #from peft import get_peft_model
+    lora_model = model
     if LORA:
-        lora_model = get_peft_model(model, LORA_CONFIG)
+        #lora_model = get_peft_model(model, LORA_CONFIG)
+        print('Train with LoRA')
         print_trainable_parameters(model = lora_model)
-    else:
-        lora_model = model
+
     # load loss function
     criterion = load_loss_function()
     
@@ -64,13 +64,31 @@ def main():
     
     print(json.dumps(load_config(CONFIG_DIR), 
                     sort_keys=True, indent=4))
+    return lora_model
     
-    train_model(model=lora_model, device=device, dataloaders=dataloaders, 
-                criterion=criterion, optimizer=optimizer_ft, scheduler=exp_lr_scheduler)
+    #train_model(model=lora_model, device=device, dataloaders=dataloaders, 
+    #            criterion=criterion, optimizer=optimizer_ft, scheduler=exp_lr_scheduler)
 
 
 if __name__ == "__main__":
     
-    main()
+    model = main()
+    if False:
+        torch.save({
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': ''
+            }, 'model_nolora.pt')
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+
     
     
