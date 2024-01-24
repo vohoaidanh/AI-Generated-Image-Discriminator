@@ -58,19 +58,21 @@ def val_transforms(sample):
 
 def load_data_huggingface():
 
-    image_datasets={'train':'', 'val':''}
+    image_datasets={'train':'', 'val':'', 'test':''}
     
     image_datasets['val'] = load_dataset(DATA_DIR_HUG, streaming=False, split="validation")
     image_datasets['train'] = load_dataset(DATA_DIR_HUG, streaming=False, split="train")
+    image_datasets['train'] = load_dataset(DATA_DIR_HUG, streaming=False, split="test")
     
-    image_datasets['val'].set_transform(train_transforms)
-    image_datasets['train'].set_transform(val_transforms)
+    image_datasets['val'].set_transform(val_transforms)
+    image_datasets['train'].set_transform(train_transforms)
+    image_datasets['test'].set_transform(train_transforms)
     
     dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=BATCHSIZE,
                                                 shuffle=True, num_workers=NUM_WORKERS, collate_fn=collate_fn)
-                  for x in ['train', 'val']}
+                  for x in ['train', 'val', 'test']}
 
-    dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
+    dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val', 'test']}
   
     # update config.yaml
     #config['CLASSNAME'] = class_names
@@ -78,7 +80,10 @@ def load_data_huggingface():
     config['DATA']['DATA_DIR'] = DATA_DIR
     config['DATA']['BATCHSIZES'] = BATCHSIZE
     config['DATA']['NUM_WORKERS'] = NUM_WORKERS
-    save_config(config, 'config.yaml')
+    save_config(config, CONFIG_DIR)
 
     return dataloaders, dataset_sizes, config['CLASSNAME']
+
+
+
 
