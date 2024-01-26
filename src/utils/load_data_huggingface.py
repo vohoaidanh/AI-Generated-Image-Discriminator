@@ -62,7 +62,7 @@ def load_data_huggingface():
     
     image_datasets['val'] = load_dataset(DATA_DIR_HUG, streaming=False, split="validation")
     image_datasets['train'] = load_dataset(DATA_DIR_HUG, streaming=False, split="train")
-    image_datasets['train'] = load_dataset(DATA_DIR_HUG, streaming=False, split="test")
+    image_datasets['test'] = load_dataset(DATA_DIR_HUG, streaming=False, split="test")
     
     image_datasets['val'].set_transform(val_transforms)
     image_datasets['train'].set_transform(train_transforms)
