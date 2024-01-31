@@ -2,6 +2,8 @@ import os
 import torch
 import torch.backends.cudnn as cudnn
 from torchvision import transforms
+import cv2
+import numpy as np
 from .load_config import load_config, save_config
 from config import CONFIG_DIR
 
@@ -11,8 +13,6 @@ cudnn.benchmark = True
 
 import warnings
 warnings.filterwarnings('ignore')   
-
-
 
 # load config
 if os.path.exists(CONFIG_DIR):
@@ -26,7 +26,27 @@ BATCHSIZE = config['DATA']['BATCHSIZES'] if config['DATA']['BATCHSIZES'] else 16
 NUM_WORKERS = config['DATA']['NUM_WORKERS'] if config['DATA']['NUM_WORKERS'] else 4
 DATA_DIR_HUG = config['DATA']['DATA_DIR_HUG'] if config['DATA']['DATA_DIR_HUG'] else None
 
-    # declare transforms for dataset
+
+def custom_transfrom(image):
+    nonlocal img_size
+    image = cv2.resize(image, dsize=img_size)
+    gradient_x = cv2.Sobel(image, cv2.CV_64F, 1, 0, ksize=3)
+    gradient_y = cv2.Sobel(image, cv2.CV_64F, 0, 1, ksize=3)
+    magnitude, angle = cv2.cartToPolar(gradient_x, gradient_y, angleInDegrees=True)
+    angle = angle/np.max(angle)
+    angle = angle.transpose(2,1,0)
+    return torch.tensor(angle, dtype=torch.float32)
+    
+data_transforms_grad = {
+    'train': transforms.Compose([
+        transforms.Lambda(lambda x: custom_transfrom(x)),
+    ]),
+    'val': transforms.Compose([
+        transforms.Lambda(lambda x: custom_transfrom(x)),
+    ])
+}
+
+# declare transforms for dataset
 data_transforms = {
     'train': transforms.Compose([
         transforms.Resize(IMG_SIZE), # resize anh
@@ -48,12 +68,11 @@ def collate_fn(batch):
     return [features, labels]
 
 def train_transforms(sample):
-    sample["image"] = [data_transforms['train'](image.convert("RGB")) for image in sample["image"]]
+    sample["image"] = [data_transforms_grad['train'](image.convert("RGB")) for image in sample["image"]]
     return sample
 
 def val_transforms(sample):
-    
-    sample["image"] = [data_transforms['val'](image.convert("RGB")) for image in sample["image"]]
+    sample["image"] = [data_transforms_grad['val'](image.convert("RGB")) for image in sample["image"]]
     return sample
 
 def load_data_huggingface():
@@ -83,6 +102,7 @@ def load_data_huggingface():
     save_config(config, CONFIG_DIR)
 
     return dataloaders, dataset_sizes, config['CLASSNAME']
+
 
 
 
