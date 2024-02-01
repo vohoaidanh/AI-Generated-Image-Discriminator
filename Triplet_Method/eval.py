@@ -44,7 +44,6 @@ from data.builder import generate_dataset_from_folder
 from torch.utils.data import DataLoader
 
 
-
 if __name__ == '__main__':
     # Load config
     cfg = load_config()
@@ -72,8 +71,7 @@ if __name__ == '__main__':
     
     #Create dataset and dataloader for evaluation
     dataset = generate_dataset_from_folder(cfg, cfg.eval.data_path)
-    dataloaders = DataLoader(dataset, batch_size=16, shuffle=True, num_workers=0)
-    
+    dataloaders = DataLoader(dataset, batch_size=16, shuffle=False, num_workers=0)
     
    #Run evaluation
     evaluation(model, dataloaders)
@@ -82,3 +80,7 @@ if __name__ == '__main__':
 
 
     
+
+
+
+

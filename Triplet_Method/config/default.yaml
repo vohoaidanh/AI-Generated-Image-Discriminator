@@ -27,6 +27,15 @@ data:
     - rotation
     - translation
 
+huggingface: # Training dataset from huggingface
+    dataset: HDanh/real_gen_dateset
+    split:
+        - train
+        - test
+    classes:
+        - fake
+        - real
+
 model:
     backbone: resnet18
     num_classes: *num_classes
@@ -55,8 +64,8 @@ eval: # Setting all infor for evaluation
     num_workers: 0 # number of cpus used to load data at each step
     metrics: [acc, f1, auc, precision, recall, kappa] # available metrics are list in utils.metrics
     classes:
-    - fake
-    - real
+        - fake
+        - real
     checkpoint: weights/best.pt
     data_path: D:/K32/do_an_tot_nghiep/image-classification-pytorch/RealFakeDB_tiny/val
 

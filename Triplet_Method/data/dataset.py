@@ -69,7 +69,7 @@ class TripletDataset(Dataset):
         img_path = os.path.join(self.root_dir, class_name, img_name)
         #image = Image.open(img_path).convert("RGB")
         anchor_img = cv2.imread(img_path)  # Đọc hình ảnh bằng OpenCV
-        anchor_img = cv2.cvtColor( anchor_img, cv2.COLOR_BGR2RGB)
+        anchor_img = cv2.cvtColor(anchor_img, cv2.COLOR_BGR2RGB)
  
         while True:
             pos_idx = np.random.randint(0, self._len)

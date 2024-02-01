@@ -5,13 +5,14 @@ import torch
 import torchvision.transforms as transforms
    
     
-
-
 def get_transform(cfg):
     img_size = cfg.data.input_size
     
     def preprocess(image):
         nonlocal img_size
+        
+        image = np.array(image)
+
         image = cv2.resize(image, dsize=img_size)
         gradient_x = cv2.Sobel(image, cv2.CV_32F, 1, 0, ksize=3)
         gradient_y = cv2.Sobel(image, cv2.CV_32F, 0, 1, ksize=3)
@@ -25,7 +26,7 @@ def get_transform(cfg):
         angle = angle.transpose(2,1,0)
         angle = torch.from_numpy(angle)
         
-        concatenated = torch.cat((magnitude, angle), dim=0)
+        #concatenated = torch.cat((magnitude, angle), dim=0)
 
         return angle
     

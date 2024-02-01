@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from utils.func import load_config
-from data.builder import initialize_dataloader, generate_dataset
+from data.builder import initialize_dataloader, generate_dataset, initialize_dataloader_huggingface
 from models.model_builder import build_model
 from munch import munchify
 
@@ -29,15 +29,19 @@ if __name__=="__main__":
     print('Training on ', device)
 
     #load data
-    train_dataset, test_dataset, val_dataset = generate_dataset(cfg)
-    train_loader, test_loader, val_loader = initialize_dataloader(cfg,train_dataset, test_dataset, val_dataset)
+    if cfg.huggingface.dataset:
+        dataloaders = initialize_dataloader_huggingface(cfg)
+    else:    
+        train_dataset, test_dataset, val_dataset = generate_dataset(cfg)
+        train_loader, test_loader, val_loader = initialize_dataloader(cfg,train_dataset, test_dataset, val_dataset)
+        
+        dataloaders = {
+            'train': train_loader,
+            'test': test_loader,
+            'val': val_loader
+            }
     
-    dataloaders = {
-        'train': train_loader,
-        'val': val_loader,
-        'test': test_loader
-        }
-
+    
     # load model
     model = build_model(cfg)
     model = model.to(device)
@@ -54,11 +58,5 @@ if __name__=="__main__":
     # train model
     train_model(cfg, model=model, device=device, dataloaders=dataloaders, 
                 criterion=criterion, optimizer=optimizer_ft, scheduler=exp_lr_scheduler)
-    
-    
-    
-    
-    
-    
     
     
