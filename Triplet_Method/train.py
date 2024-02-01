@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from utils.func import load_config
+from utils.func import load_config, print_trainable_parameters
 from data.builder import initialize_dataloader, generate_dataset, initialize_dataloader_huggingface
 from models.model_builder import build_model
 from munch import munchify
@@ -10,6 +10,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from utils.load_optim import load_optimization, load_lr_scheduler
 from utils.load_loss import load_loss_function
+
 from models.trainer import train_model
 
 import warnings
@@ -59,4 +60,21 @@ if __name__=="__main__":
     train_model(cfg, model=model, device=device, dataloaders=dataloaders, 
                 criterion=criterion, optimizer=optimizer_ft, scheduler=exp_lr_scheduler)
     
-    
+
+# =============================================================================
+# import imutils
+# import cv2
+# 
+# im = cv2.imread(r'images/real1.jpg')
+# 
+# im_224 = imutils.resize(im,width=224, height=224)
+# 
+# import matplotlib.pyplot as plt
+# 
+# plt.imshow(im_224)
+# 
+# 
+# =============================================================================
+
+
+
