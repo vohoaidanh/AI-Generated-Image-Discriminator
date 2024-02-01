@@ -1,24 +1,21 @@
 # -*- coding: utf-8 -*-
-import torch
+
 from utils.func import load_config
 from data.builder import initialize_dataloader, generate_dataset
 from models.model_builder import build_model
-#from data.dataset import visual
 from munch import munchify
 
 #----------
+import torch
 import torch.backends.cudnn as cudnn
-
 from utils.load_optim import load_optimization, load_lr_scheduler
 from utils.load_loss import load_loss_function
 from models.trainer import train_model
-
 
 import warnings
 warnings.filterwarnings('ignore')
 
 cudnn.benchmark = True
-
 
 if __name__=="__main__":
     cfg = load_config()
