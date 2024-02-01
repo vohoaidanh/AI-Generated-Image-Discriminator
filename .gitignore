@@ -5,4 +5,4 @@
 *.jpeg
 *.png
 *.webp
-Triplet_Method/logs/
+logs/
