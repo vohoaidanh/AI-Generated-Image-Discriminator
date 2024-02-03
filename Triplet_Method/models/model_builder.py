@@ -11,6 +11,10 @@ def build_model(cfg):
         model = models.resnet18(weights='DEFAULT')
         model.fc = CustomClassifier(in_features=model.fc.in_features, num_classes=num_classes)
         
+    if backbone == 'resnet50':
+        model = models.resnet18(weights='DEFAULT')
+        model.fc = CustomClassifier(in_features=model.fc.in_features, num_classes=num_classes)
+                
     return model
 
 def load_model(cfg):

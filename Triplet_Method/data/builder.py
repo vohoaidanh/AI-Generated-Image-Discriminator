@@ -137,6 +137,8 @@ def initialize_dataloader(cfg, train_dataset=None, test_dataset=None, val_datase
     batch_size = cfg.train.batch_size
     num_workers = cfg.train.num_workers
     pin_memory = cfg.train.pin_memory
+    train_loader, test_loader, val_loader = None, None, None
+    
     if train_dataset:
         train_loader = DataLoader(
             train_dataset,

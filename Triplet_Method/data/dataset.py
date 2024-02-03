@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
 import json
-
+from PIL import Image
 
 class BaseDataset(Dataset):
     def __init__(self, root_dir, transform=None):
@@ -23,7 +23,8 @@ class BaseDataset(Dataset):
     def __getitem__(self, idx):
         img_name, class_name = self.images[idx]
         img_path = os.path.join(self.root_dir, class_name, img_name)
-        anchor_img = cv2.imread(img_path)  # Đọc hình ảnh bằng OpenCV
+        #anchor_img = cv2.imread(img_path)  # Đọc hình ảnh bằng OpenCV
+        anchor_img = Image.open(img_path)  # Đọc hình ảnh bằng Pil Image
         
         if self.transform:
             anchor_img = self.transform(anchor_img)
