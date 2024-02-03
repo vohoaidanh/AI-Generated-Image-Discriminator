@@ -26,6 +26,9 @@ class BaseDataset(Dataset):
         #anchor_img = cv2.imread(img_path)  # Đọc hình ảnh bằng OpenCV
         anchor_img = Image.open(img_path)  # Đọc hình ảnh bằng Pil Image
         
+        if anchor_img.mode != 'RGB':
+            anchor_img = anchor_img.convert('RGB')
+        
         if self.transform:
             anchor_img = self.transform(anchor_img)
 

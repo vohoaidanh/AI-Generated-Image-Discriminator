@@ -154,6 +154,7 @@ def get_transform(cfg):
         'train': transforms.Compose([
             transforms.Lambda(lambda x: __custom_resize(x, cfg)),
             transforms.Lambda(lambda x: data_augment(x,cfg)),
+            transforms.RandomHorizontalFlip(),  # Lật ảnh ngẫu nhiên theo chiều ngang
             transforms.ToTensor(),  # Chuyển đổi hình ảnh thành tensor
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]),
@@ -168,6 +169,7 @@ def get_transform(cfg):
         'val': transforms.Compose([
             transforms.Lambda(lambda x: __custom_resize(x, cfg)),
             transforms.Lambda(lambda x: data_augment(x,cfg)),
+            transforms.RandomHorizontalFlip(),  # Lật ảnh ngẫu nhiên theo chiều ngang
             transforms.ToTensor(),  # Chuyển đổi hình ảnh thành tensor
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]),

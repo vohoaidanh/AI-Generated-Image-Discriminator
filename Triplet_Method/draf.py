@@ -15,7 +15,7 @@ dataiter = iter(dataloader[2])
 
 sample = next(dataiter)[0][3]
 
-sample = np.asarray(sample[0,:,:])
+#sample = np.asarray(sample[0,:,:])
 
 #sample = sample.transpose((2,1,0))
 

@@ -53,6 +53,7 @@ data_augment:
         - 224
     rz_interp: 
         - bilinear
+    cropSize: 224
     
 
 model:
@@ -90,7 +91,7 @@ eval: # Setting all infor for evaluation
 
 solver:
   optimizer: SGD # SGD / ADAM / ADAMW
-  learning_rate: 0.00001 # initial learning rate
+  learning_rate: 0.0001 # initial learning rate
   lr_scheduler: StepLR # available schedulers are list in 'scheduler_args' below. please remember to update scheduler_args when number of epoch changes.
   momentum: 0.9 # only for SGD. set to 0 to disable momentum
   nesterov: true # only for SGD.
