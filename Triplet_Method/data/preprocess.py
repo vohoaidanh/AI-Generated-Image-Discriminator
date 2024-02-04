@@ -162,8 +162,9 @@ def get_transform(cfg):
         
         log_img = cv2.merge([r, g, b])
         log_img = np.log(1+log_img)
+        log_img = (log_img + 0.5)/0.5
         log_img = log_img.transpose(2,1,0)
-        log_img = torch.from_numpy(log_img)
+        log_img = torch.from_numpy(log_img).float()
         return log_img
       
     data_transforms = {
