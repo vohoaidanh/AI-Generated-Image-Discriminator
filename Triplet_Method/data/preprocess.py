@@ -6,11 +6,11 @@ import torchvision.transforms as transforms
 import torchvision.transforms.functional as TF
 from typing import Tuple
 
-from scipy.fft import dctn, idctn
+from scipy.fft import dctn, idctn, fft2, ifft2, fftshift
 
 from random import random, choice
 from io import BytesIO
-from PIL import Image
+from PIL import Image, ImageFilter,ImageChops
 from scipy.ndimage.filters import gaussian_filter
 
 rz_dict = {'bilinear': Image.BILINEAR,
@@ -116,7 +116,7 @@ def get_transform(cfg):
         
         dct = np.stack((red_dct, green_dct, blue_dct), axis=2)
 
-        dct =dct.transpose(2,1,0)
+        dct = dct.transpose(2,1,0)
         dct = dct.astype(np.float32)
         #image = __resize_with_pad(image, dsize=img_size)
         
@@ -150,28 +150,44 @@ def get_transform(cfg):
 
         return Image.fromarray(img)
     
+    def fft_argment(image, cfg):
+        
+        image = np.array(image)
+        blur = cv2.GaussianBlur(image, (3,3),0)
+        diff = image - blur
+
+        r = np.abs(fftshift(fft2(diff[:,:,0])))
+        g = np.abs(fftshift(fft2(diff[:,:,1])))
+        b = np.abs(fftshift(fft2(diff[:,:,2])))
+        
+        log_img = cv2.merge([r, g, b])
+        log_img = np.log(1+log_img)
+        log_img = log_img.transpose(2,1,0)
+        log_img = torch.from_numpy(log_img)
+        return log_img
+      
     data_transforms = {
         'train': transforms.Compose([
             transforms.Lambda(lambda x: __custom_resize(x, cfg)),
-            transforms.Lambda(lambda x: data_augment(x,cfg)),
-            transforms.RandomHorizontalFlip(),  # Lật ảnh ngẫu nhiên theo chiều ngang
-            transforms.ToTensor(),  # Chuyển đổi hình ảnh thành tensor
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            transforms.Lambda(lambda x: fft_argment(x,cfg)),
+            #transforms.RandomHorizontalFlip(),  # Lật ảnh ngẫu nhiên theo chiều ngang
+            #transforms.ToTensor(),  # Chuyển đổi hình ảnh thành tensor
+            #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]),
        
         'test': transforms.Compose([
             transforms.Lambda(lambda x: __custom_resize(x, cfg)),
-            transforms.Lambda(lambda x: data_augment(x,cfg)),
-            transforms.ToTensor(),  # Chuyển đổi hình ảnh thành tensor
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            transforms.Lambda(lambda x: fft_argment(x,cfg)),
+            #transforms.ToTensor(),  # Chuyển đổi hình ảnh thành tensor
+            #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]),
         
         'val': transforms.Compose([
             transforms.Lambda(lambda x: __custom_resize(x, cfg)),
-            transforms.Lambda(lambda x: data_augment(x,cfg)),
-            transforms.RandomHorizontalFlip(),  # Lật ảnh ngẫu nhiên theo chiều ngang
-            transforms.ToTensor(),  # Chuyển đổi hình ảnh thành tensor
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            transforms.Lambda(lambda x: fft_argment(x,cfg)),
+            #transforms.RandomHorizontalFlip(),  # Lật ảnh ngẫu nhiên theo chiều ngang
+            #transforms.ToTensor(),  # Chuyển đổi hình ảnh thành tensor
+            #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]),
         
     }
